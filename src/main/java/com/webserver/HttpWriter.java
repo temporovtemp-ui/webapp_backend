@@ -6,11 +6,9 @@ import java.util.Arrays;
 
 public class HttpWriter implements Closeable {
     OutputStream outputStream;
-    BufferedWriter writer;
 
     public HttpWriter(Socket clientSocket) throws IOException {
         outputStream = clientSocket.getOutputStream();
-        writer = new BufferedWriter(new OutputStreamWriter(outputStream));
     }
 
     public void writeResponse(HttpResponse httpResponse) throws IOException, HttpResponseSerializationException {
@@ -21,7 +19,7 @@ public class HttpWriter implements Closeable {
 
 
         String line = httpResponse.httpVersion + " " + httpResponse.httpResponseStatus + "\r\n";
-        writer.write(line);
+        outputStream.write(line.getBytes());
         System.out.println("Line written: '" + line + "'");
 
         for(String headerName: httpResponse.headers.keySet()) {
@@ -29,12 +27,12 @@ public class HttpWriter implements Closeable {
             if (headerName == null || headerValue == null)
                 throw new HttpResponseSerializationException("HTTP header name and header value shall not be null");
             line = headerName + ": " + headerValue + "\r\n";
-            writer.write(line);
+            outputStream.write(line.getBytes());
             System.out.println("Line written: '" + line + "'");
         }
 
         line = "\r\n";
-        writer.write(line);
+        outputStream.write(line.getBytes());
         System.out.println("Line written: '" + line + "'");
 
         if (httpResponse.body != null) {
@@ -45,7 +43,6 @@ public class HttpWriter implements Closeable {
 
     @Override
     public void close() throws IOException {
-        writer.close();
         outputStream.close();
     }
 }
