@@ -1,14 +1,38 @@
 package com.webserver;
 
+import com.webserver.handlers.Handler;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
 public class HttpServer {
-    public final int port;
+    private int port;
+    private Handler entryHandler;
 
-    public HttpServer(int port) {
+    public HttpServer(int port, Handler entryHandler) {
+        validatePort(port);
+        validateEntryHandler(entryHandler);
         this.port = port;
+        this.entryHandler = entryHandler;
+    }
+
+    public int getPort() {
+        return port;
+    }
+
+    public void setPort(int port) {
+        validatePort(port);
+        this.port = port;
+    }
+
+    public Handler getEntryHandler() {
+        return entryHandler;
+    }
+
+    public void setEntryHandler(Handler entryHandler) {
+        validateEntryHandler(entryHandler);
+        this.entryHandler = entryHandler;
     }
 
     public void run() {
@@ -23,13 +47,8 @@ public class HttpServer {
                     try {
                         request = httpReader.readRequest();
                         System.out.println("Got request: " + request);
-                        response = new HttpResponse();
-                        response.httpVersion = "HTTP/1.1";
-                        response.httpResponseStatus = HttpResponseStatus.OK_200;
-                        response.headers.put("Content-Type", "text/plain");
-                        response.headers.put("Connection", "close");
-                        response.body = "Bababa bebebe".getBytes();
-                        response.headers.put("Content-Length", String.valueOf(response.body.length));
+                        System.out.println("Handling request...");
+                        entryHandler.handle(request, response);
                         System.out.println("Response prepared: " + response);
                     } catch (IOException e) {
                         response = new HttpResponse();
@@ -61,5 +80,15 @@ public class HttpServer {
         } catch (IOException e) {
             System.out.println("IO error while creating server socket: " + e);
         }
+    }
+
+    private void validatePort(int port) {
+        if (port < 0 || port > 65535)
+            throw new IllegalArgumentException("port must be in boundaries [0, 65535]");
+    }
+
+    private void validateEntryHandler(Handler entryHandler) {
+        if (entryHandler == null)
+            throw new IllegalArgumentException("entryHandler must not be null");
     }
 }

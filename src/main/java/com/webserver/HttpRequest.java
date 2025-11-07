@@ -17,8 +17,11 @@ public class HttpRequest {
     }
 
     public void setPath(String path) {
-        if (!path.matches("^(/[a-zA-Z0-9\\-._~%!$&'()*+,;=:@]*)+/?$"))
+        try {
+            PathValidator.validatePath(path);
+        } catch (IllegalArgumentException e) {
             throw new HttpRequestFormatException("Invalid path format");
+        }
         this.path = path;
     }
 
