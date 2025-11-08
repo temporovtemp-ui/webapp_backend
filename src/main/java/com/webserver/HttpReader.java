@@ -3,6 +3,7 @@ package com.webserver;
 import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class HttpReader implements Closeable {
@@ -22,8 +23,11 @@ public class HttpReader implements Closeable {
         System.out.println("Reading headers...");
         int contentLength = readHeaders(httpRequest);
         System.out.println("Headers read. Content-Length: " + contentLength);
-        if (contentLength > 0)
+        if (contentLength > 0) {
+            System.out.println("Reading body...");
             readBody(httpRequest, contentLength);
+            System.out.println("Body read!");
+        }
         return httpRequest;
     }
 
@@ -93,6 +97,18 @@ public class HttpReader implements Closeable {
     }
 
     private void readBody(HttpRequest httpRequest, int contentLength) throws IOException {
-        httpRequest.body = inputStream.readNBytes(contentLength);
+        if (contentLength > 0) {
+            char[] bodyChars = new char[contentLength];
+            int bytesRead = 0;
+            while (bytesRead < contentLength) {
+                int read = reader.read(bodyChars, bytesRead, contentLength - bytesRead);
+                if (read == -1) {
+                    throw new IOException("Unexpected end of stream while reading body");
+                }
+                bytesRead += read;
+            }
+            httpRequest.body = new String(bodyChars).getBytes();
+            System.out.println("Read: " + Arrays.toString(httpRequest.body));
+        }
     }
 }

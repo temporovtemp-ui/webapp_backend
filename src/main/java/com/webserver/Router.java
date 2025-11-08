@@ -1,6 +1,7 @@
 package com.webserver;
 
 import com.webserver.handlers.Handler;
+import com.webserver.utils.PathValidator;
 
 import java.util.HashMap;
 import java.util.Map;

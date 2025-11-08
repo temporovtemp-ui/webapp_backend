@@ -1,4 +1,4 @@
-package com.webserver;
+package com.webserver.utils;
 
 public class PathValidator {
     public static void validatePath(String path) {
