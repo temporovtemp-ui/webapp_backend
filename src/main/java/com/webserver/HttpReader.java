@@ -1,5 +1,7 @@
 package com.webserver;
 
+import com.webserver.utils.PathValidator;
+
 import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -66,11 +68,23 @@ public class HttpReader implements Closeable {
             throw new HttpRequestParsingException("Invalid HTTP method: " + methodLineParts[0]);
         }
 
+        System.out.println("Checking path...");
         try {
-            httpRequest.setPath(methodLineParts[1]);
-        } catch (HttpRequestFormatException e) {
-            throw new HttpRequestParsingException("Invalid HTTP path: " + methodLineParts[1]);
+            PathValidator.validatePath(methodLineParts[1]);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Malformed HTTP path");
+            throw new HttpRequestParsingException("Malformed HTTP path: " + methodLineParts[1]);
         }
+        System.out.println("Path check passed");
+        String[] pathParts = methodLineParts[1].split("\\?");
+        if (pathParts.length == 2) {
+            String[] queryParameters = pathParts[1].split("&");
+            for(int i = 0; i < queryParameters.length; i++) {
+                String[] paramParts = queryParameters[i].split("=");
+                httpRequest.queryParameters.put(paramParts[0], paramParts[1]);
+            }
+        }
+        httpRequest.setPath(pathParts[0]);
 
         httpRequest.httpVersion = methodLineParts[2];
 

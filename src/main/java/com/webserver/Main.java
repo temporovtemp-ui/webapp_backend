@@ -1,6 +1,7 @@
 package com.webserver;
 
 import com.webserver.endpoints.HelloWorldEndpoint;
+import com.webserver.endpoints.ReadUserEndpoint;
 import com.webserver.endpoints.SignInEndpoint;
 import com.webserver.endpoints.SignUpEndpoint;
 import com.webserver.handlers.RoutingHandler;
@@ -14,6 +15,7 @@ public class Main {
         DummyUserDatabase db = new DummyUserDatabase();
         router.putEntry("/users", HttpMethod.POST, new SignUpEndpoint(db));
         router.putEntry("/login", HttpMethod.POST, new SignInEndpoint(db));
+        router.putEntry("/profile", HttpMethod.GET, new ReadUserEndpoint(db));
         RoutingHandler routingHandler = new RoutingHandler(router);
         HttpServer server = new HttpServer(port, routingHandler);
         server.run();

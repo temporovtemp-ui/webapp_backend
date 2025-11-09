@@ -9,6 +9,7 @@ import java.util.Map;
 public class HttpRequest {
     public HttpMethod method;
     private String path;
+    public final Map<String, String> queryParameters = new HashMap<>();
     public String httpVersion;
     public final Map<String, String> headers = new HashMap<>();
     public byte[] body;
@@ -31,6 +32,7 @@ public class HttpRequest {
         return "HttpRequest{" +
                 "method=" + method +
                 ", path='" + path + '\'' +
+                ", queryParameters=" + queryParameters +
                 ", httpVersion='" + httpVersion + '\'' +
                 ", headers=" + headers +
                 ", body=" + Arrays.toString(body) +
