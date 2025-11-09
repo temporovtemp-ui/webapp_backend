@@ -13,7 +13,6 @@ public class HttpRequest {
     public final Map<String, String> headers = new HashMap<>();
     public byte[] body;
 
-
     public String getPath() {
         return path;
     }
