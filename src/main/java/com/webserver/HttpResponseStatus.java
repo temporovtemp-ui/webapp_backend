@@ -8,6 +8,7 @@ public enum HttpResponseStatus {
     UNAUTHORIZED_401("401 Unauthorized"),
     FORBIDDEN_403("403 Forbidden"),
     NOT_FOUND_404("404 Not Found"),
+    METHOD_NOT_ALLOWED_405("405 Method Not Allowed"),
     CONFLICT_409("409 Conflict"),
     UNPROCESSABLE_ENTITY_422("422 Unprocessable Entity"),
     INTERNAL_SERVER_ERROR_500("500 Internal Server Error"),

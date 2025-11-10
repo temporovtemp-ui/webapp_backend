@@ -56,7 +56,7 @@ public class HttpReader implements Closeable {
         if (headerLines.isEmpty())
             throw new HttpRequestParsingException("Request headers are empty");
 
-        String methodLine = headerLines.getFirst();
+        String methodLine = headerLines.get(0);
         String[] methodLineParts = methodLine.split(" ");
         if (methodLineParts.length != 3)
             throw new HttpRequestParsingException("Request method line does not contain 3 tokens: " + methodLine);
