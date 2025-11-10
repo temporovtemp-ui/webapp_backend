@@ -33,8 +33,8 @@ public class SignUpEndpoint extends Handler {
             System.out.println("JSON extraction failed due to: " + e);
             response.httpResponseStatus = HttpResponseStatus.UNPROCESSABLE_ENTITY_422;
             response.httpVersion="HTTP/1.1";
-            response.headers.put("Content-Type", "text/plain");
-            response.body = "Malformed sign up form".getBytes();
+            response.headers.put("Content-Type", "application/json");
+            response.body = "{\"error\": \"Malformed sign up form\"}".getBytes();
             response.headers.put("Content-Length", String.valueOf(response.body.length));
             return;
         }
@@ -47,8 +47,8 @@ public class SignUpEndpoint extends Handler {
             System.out.println("Validating sign up failed due to: " + e);
             response.httpResponseStatus = HttpResponseStatus.UNPROCESSABLE_ENTITY_422;
             response.httpVersion="HTTP/1.1";
-            response.headers.put("Content-Type", "text/plain");
-            response.body = e.getMessage().getBytes();
+            response.headers.put("Content-Type", "application/json");
+            response.body = ("{\"error\": \"" + e.getMessage() + "\"}").getBytes();
             response.headers.put("Content-Length", String.valueOf(response.body.length));
             return;
         }
@@ -63,8 +63,8 @@ public class SignUpEndpoint extends Handler {
             System.out.println("New user insertion failed due to: " + e);
             response.httpResponseStatus = HttpResponseStatus.CONFLICT_409;
             response.httpVersion="HTTP/1.1";
-            response.headers.put("Content-Type", "text/plain");
-            response.body = e.getMessage().getBytes();
+            response.headers.put("Content-Type", "application/json");
+            response.body = ("{\"error\": \"" + e.getMessage() + "\"}").getBytes();
             response.headers.put("Content-Length", String.valueOf(response.body.length));
             return;
         }

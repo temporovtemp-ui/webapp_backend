@@ -31,8 +31,8 @@ public class SignInEndpoint extends Handler {
             System.out.println("JSON extraction failed due to: " + e);
             response.httpResponseStatus = HttpResponseStatus.UNPROCESSABLE_ENTITY_422;
             response.httpVersion="HTTP/1.1";
-            response.headers.put("Content-Type", "text/plain");
-            response.body = "Malformed sign in form".getBytes();
+            response.headers.put("Content-Type", "application/json");
+            response.body = "{\"error\": \"Malformed sign in form\"}".getBytes();
             response.headers.put("Content-Length", String.valueOf(response.body.length));
             return;
         }
@@ -45,8 +45,8 @@ public class SignInEndpoint extends Handler {
             System.out.println("Validating sign in failed due to: " + e);
             response.httpResponseStatus = HttpResponseStatus.UNPROCESSABLE_ENTITY_422;
             response.httpVersion="HTTP/1.1";
-            response.headers.put("Content-Type", "text/plain");
-            response.body = e.getMessage().getBytes();
+            response.headers.put("Content-Type", "application/json");
+            response.body = ("{\"error\": \"" + e.getMessage() + "\"}").getBytes();
             response.headers.put("Content-Length", String.valueOf(response.body.length));
             return;
         }
@@ -60,8 +60,8 @@ public class SignInEndpoint extends Handler {
             System.out.println("Reading user by provided username failed: " + e);
             response.httpResponseStatus = HttpResponseStatus.UNAUTHORIZED_401;
             response.httpVersion="HTTP/1.1";
-            response.headers.put("Content-Type", "text/plain");
-            response.body = "Incorrect username or password".getBytes();
+            response.headers.put("Content-Type", "application/json");
+            response.body = "{\"error\": \"Incorrect username or password\"}".getBytes();
             response.headers.put("Content-Length", String.valueOf(response.body.length));
             return;
         }
@@ -70,8 +70,8 @@ public class SignInEndpoint extends Handler {
             System.out.println("Passwords don't match");
             response.httpResponseStatus = HttpResponseStatus.UNAUTHORIZED_401;
             response.httpVersion="HTTP/1.1";
-            response.headers.put("Content-Type", "text/plain");
-            response.body = "Incorrect username or password".getBytes();
+            response.headers.put("Content-Type", "application/json");
+            response.body = "{\"error\": \"Incorrect username or password\"}".getBytes();
             response.headers.put("Content-Length", String.valueOf(response.body.length));
             return;
         }
@@ -85,3 +85,6 @@ public class SignInEndpoint extends Handler {
         response.headers.put("Content-Length", String.valueOf(response.body.length));
     }
 }
+
+//Access-Control-Allow-Origin
+//access-control-allow-origin

@@ -33,8 +33,8 @@ public class AuthorizationHandler extends Handler {
             System.out.println("It isn't :(");
             response.httpResponseStatus = HttpResponseStatus.UNAUTHORIZED_401;
             response.httpVersion = "HTTP/1.1";
-            response.headers.put("Content-Type", "text/plain");
-            response.body = "Authorization header is missing or malformed".getBytes();
+            response.headers.put("Content-Type", "application/json");
+            response.body = "{\"error\": \"Authorization header is missing or malformed\"}".getBytes();
             response.headers.put("Content-Length", String.valueOf(response.body.length));
             readUser = null;
             return;
@@ -48,8 +48,8 @@ public class AuthorizationHandler extends Handler {
             System.out.println("JWT is invalid");
             response.httpResponseStatus = HttpResponseStatus.UNAUTHORIZED_401;
             response.httpVersion = "HTTP/1.1";
-            response.headers.put("Content-Type", "text/plain");
-            response.body = "Invalid token".getBytes();
+            response.headers.put("Content-Type", "application/json");
+            response.body = "{\"error\": \"Invalid token\"}".getBytes();
             response.headers.put("Content-Length", String.valueOf(response.body.length));
             readUser = null;
             return;
@@ -64,8 +64,8 @@ public class AuthorizationHandler extends Handler {
             System.out.println("It doesn't :(");
             response.httpResponseStatus = HttpResponseStatus.UNAUTHORIZED_401;
             response.httpVersion = "HTTP/1.1";
-            response.headers.put("Content-Type", "text/plain");
-            response.body = "Token payload does not contain iat".getBytes();
+            response.headers.put("Content-Type", "application/json");
+            response.body = "{\"error\": \"Token payload does not contain iat\"}".getBytes();
             response.headers.put("Content-Length", String.valueOf(response.body.length));
             readUser = null;
             return;
@@ -77,8 +77,8 @@ public class AuthorizationHandler extends Handler {
             System.out.println("It doesn't :(");
             response.httpResponseStatus = HttpResponseStatus.UNAUTHORIZED_401;
             response.httpVersion = "HTTP/1.1";
-            response.headers.put("Content-Type", "text/plain");
-            response.body = "Token payload does not contain exp".getBytes();
+            response.headers.put("Content-Type", "application/json");
+            response.body = "{\"error\": \"Token payload does not contain exp\"}".getBytes();
             response.headers.put("Content-Length", String.valueOf(response.body.length));
             readUser = null;
             return;
@@ -91,8 +91,8 @@ public class AuthorizationHandler extends Handler {
             System.out.println("It's not :(");
             response.httpResponseStatus = HttpResponseStatus.UNAUTHORIZED_401;
             response.httpVersion = "HTTP/1.1";
-            response.headers.put("Content-Type", "text/plain");
-            response.body = "Token expired".getBytes();
+            response.headers.put("Content-Type", "application/json");
+            response.body = "{\"error\": \"Token expired\"}".getBytes();
             response.headers.put("Content-Length", String.valueOf(response.body.length));
             readUser = null;
             return;
@@ -104,8 +104,8 @@ public class AuthorizationHandler extends Handler {
             System.out.println("It doesn't :(");
             response.httpResponseStatus = HttpResponseStatus.UNAUTHORIZED_401;
             response.httpVersion = "HTTP/1.1";
-            response.headers.put("Content-Type", "text/plain");
-            response.body = "Token payload does not contain username".getBytes();
+            response.headers.put("Content-Type", "application/json");
+            response.body = "{\"error\": \"Token payload does not contain username\"}".getBytes();
             response.headers.put("Content-Length", String.valueOf(response.body.length));
             readUser = null;
             return;
@@ -119,8 +119,8 @@ public class AuthorizationHandler extends Handler {
             System.out.println("Failed!");
             response.httpResponseStatus = HttpResponseStatus.UNAUTHORIZED_401;
             response.httpVersion = "HTTP/1.1";
-            response.headers.put("Content-Type", "text/plain");
-            response.body = "Claimed user does not exist".getBytes();
+            response.headers.put("Content-Type", "application/json");
+            response.body = "{\"error\": \"Claimed user does not exist\"}".getBytes();
             response.headers.put("Content-Length", String.valueOf(response.body.length));
             readUser = null;
             return;
