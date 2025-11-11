@@ -78,6 +78,7 @@ public class SignInEndpoint extends Handler {
         System.out.println("Passwords match");
 
         response.httpResponseStatus = HttpResponseStatus.OK_200;
+//        response.httpResponseStatus = HttpResponseStatus.BAD_REQUEST_400;
         response.httpVersion="HTTP/1.1";
         response.headers.put("Content-Type", "application/json");
         String body = "{\"jwt\": \"" + JwtManager.generateToken(foundUser) + "\"}";

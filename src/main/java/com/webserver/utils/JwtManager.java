@@ -23,7 +23,7 @@ public class JwtManager {
 
         JSONObject payload = new JSONObject();
         long iat = Instant.now().getEpochSecond();
-        long exp = iat + 60 * 60 * 24; // 24 hours
+        long exp = iat + 60 * 60 * 24;
         payload.put("username", user.getUsername());
         payload.put("iat", iat);
         payload.put("exp", exp);

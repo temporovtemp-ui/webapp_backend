@@ -71,6 +71,7 @@ public class SignUpEndpoint extends Handler {
         System.out.println("Inserted new user successfully!");
 
         response.httpResponseStatus = HttpResponseStatus.CREATED_201;
+        //response.httpResponseStatus = HttpResponseStatus.BAD_REQUEST_400;
         response.httpVersion="HTTP/1.1";
         response.headers.put("Content-Type", "application/json");
         response.body = UserSerializer.serializeUser(newUser).toString().getBytes();
